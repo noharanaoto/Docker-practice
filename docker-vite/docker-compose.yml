@@ -1,0 +1,22 @@
+version: "3.8" 
+services:
+  front: 
+    build: 
+      context: . 
+      dockerfile: ./Dockerfile
+      args:
+        - UID=501
+        - GID=20
+    container_name: node
+    volumes:
+      - type: bind
+        source: .
+        target: /front
+    working_dir: /front
+    command: sh -c "npm run dev"
+    ports:
+      - 8000:8000
+    tty: true
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
