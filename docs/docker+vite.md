@@ -27,6 +27,14 @@ EXPOSE 8000
 ~~~
 
 docker-compose.yml
+.envを読み込む時に
+
+~~~
+ERROR: The Compose file './docker-compose.yml' is invalid because:
+services.front.build.args contains {"UID": "xxxx"}, which is an invalid type, it should be a string
+~~~
+
+で詰まった→[解決方法](https://qiita.com/rinasan3/items/68ffa55a9cfaef27da6b9)
 
 ~~~yml
 version: "3.8" 
@@ -121,8 +129,6 @@ $ tree
     ├── public
     │   └── vite.svg
     └── style.css
-
-2 directories, 9 files
 ~~~
 
 ファイル構成を変更
