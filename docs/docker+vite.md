@@ -26,6 +26,7 @@ EXPOSE 8000
 ~~~
 
 docker-compose.yml
+UIDとGIDは自分のものを入力。調べ方は[こちら](https://atmarkit.itmedia.co.jp/flinux/rensai/linuxtips/095uidgid.html)
 
 ~~~yml
 version: "3.8" 
@@ -35,8 +36,8 @@ services:
       context: . 
       dockerfile: ./Dockerfile
       args:
-        - UID=501
-        - GID=20
+        - UID=xxxx 
+        - GID=xxxx
     container_name: node
     volumes:
       - type: bind
@@ -58,57 +59,15 @@ services:
 $ docker-compose build
 ~~~
 
-<details>
-<summary>ログ</summary>
-
-~~~sh
-noharanaoto@noharanaotonoMacBook-Pro docker-vite % docker-compose build
-Building front
-[+] Building 11.1s (10/10) FINISHED                                                                                                                           
- => [internal] load build definition from Dockerfile                                                                                                     0.1s
- => => transferring dockerfile: 203B                                                                                                                     0.0s
- => [internal] load .dockerignore                                                                                                                        0.0s
- => => transferring context: 2B                                                                                                                          0.0s
- => [internal] load metadata for docker.io/library/node:16.13.0-alpine3.12                                                                               3.3s
- => [internal] load build context                                                                                                                        0.0s
- => => transferring context: 660B                                                                                                                        0.0s
- => [1/5] FROM docker.io/library/node:16.13.0-alpine3.12@sha256:36ff9819642402d43cbd1304c888f8c0fb398c511299e6212ce8f3b6ac03ff9b                         6.8s
- => => resolve docker.io/library/node:16.13.0-alpine3.12@sha256:36ff9819642402d43cbd1304c888f8c0fb398c511299e6212ce8f3b6ac03ff9b                         0.0s
- => => sha256:37052833c7b030aafc773cfb8bd752af5086798b99ed82a9372796ba1847d2a0 34.78MB / 34.78MB                                                         4.6s
- => => sha256:da9436c612e4301f474bf6c2e4abf42336b5c064222c3ea0b69baf4fcfe09ea0 2.35MB / 2.35MB                                                           0.9s
- => => sha256:36ff9819642402d43cbd1304c888f8c0fb398c511299e6212ce8f3b6ac03ff9b 1.43kB / 1.43kB                                                           0.0s
- => => sha256:a21cc07a7dd15d9960d7c771565b8eb6d48aebefe067429f2a170c0c8e1cab07 1.16kB / 1.16kB                                                           0.0s
- => => sha256:d951a5a0fae5d7e7c0dd31613786e4607ac8cef1e3934bc0e422e2262170c527 6.53kB / 6.53kB                                                           0.0s
- => => sha256:8572bc8fb8a32061648dd183b2c0451c82be1bd053a4ea8fae991436b92faebb 2.81MB / 2.81MB                                                           0.4s
- => => extracting sha256:8572bc8fb8a32061648dd183b2c0451c82be1bd053a4ea8fae991436b92faebb                                                                0.7s
- => => sha256:916005d8c1b3c8a6d15a703eb96f70603f39446d38cb2a19c65d8b6bc4946e56 450B / 450B                                                               1.0s
- => => extracting sha256:37052833c7b030aafc773cfb8bd752af5086798b99ed82a9372796ba1847d2a0                                                                1.7s
- => => extracting sha256:da9436c612e4301f474bf6c2e4abf42336b5c064222c3ea0b69baf4fcfe09ea0                                                                0.1s
- => => extracting sha256:916005d8c1b3c8a6d15a703eb96f70603f39446d38cb2a19c65d8b6bc4946e56                                                                0.0s
- => [2/5] WORKDIR /front                                                                                                                                 0.2s
- => [3/5] COPY . /front                                                                                                                                  0.0s
- => [4/5] RUN mkdir /.npm                                                                                                                                0.3s
- => [5/5] RUN chown -R 501:20 "/.npm"                                                                                                                    0.2s
- => exporting to image                                                                                                                                   0.0s
- => => exporting layers                                                                                                                                  0.0s
- => => writing image sha256:6832444b01a9161e9e4dadf6a638e75e9f1891209bc2b334bf54c1d17e4d275e                                                             0.0s
- => => naming to docker.io/library/docker-vite_front                                                                                                     0.0s
-
-Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
-noharanaoto@noharanaotonoMacBook-Pro docker-vite % 
 ~~~
-
-</details>
-
-~~~
-$ docker-compose run --rm --user 501:20 front npm create vite@latest
+$ docker-compose run --rm --user 自分のUID:自分のGID front npm create vite@latest
 ~~~
 
 <details>
 <summary>ログ</summary>
 
 ~~~sh
-noharanaoto@noharanaotonoMacBook-Pro docker-vite % docker-compose run --rm --user 501:20 front npm create vite@latest
+$ docker-compose run --rm --user 自分のUID:自分のGID front npm create vite@latest
 Creating network "docker-vite_default" with the default driver
 Creating docker-vite_front_run ... done
 Need to install the following packages:
@@ -131,7 +90,6 @@ npm notice New minor version of npm available! 8.1.0 -> 8.19.2
 npm notice Changelog: https://github.com/npm/cli/releases/tag/v8.19.2
 npm notice Run npm install -g npm@8.19.2 to update!
 npm notice 
-
 ~~~
 
 </details>
@@ -139,7 +97,7 @@ npm notice
 ここでのファイル構成
 
 ~~~
-noharanaoto@noharanaotonoMacBook-Pro docker-vite % tree
+$ tree
 .
 ├── Dockerfile
 ├── docker-compose.yml
@@ -180,7 +138,7 @@ export default defineConfig({
 runする
 
 ~~~
-$ docker-compose run --rm --user 501:20 front npm install
+$ docker-compose run --rm --user 自分のUID:自分のGID front npm install
 ~~~
 
 <details>
@@ -212,6 +170,8 @@ $ docker-compose up -d
 
 して`http://localhost:8000/`にアクセスするとwelcomeページが表示される。
 
+![welcom画面](images/vite_welcome_page.png)
+
 ## hello worldしてみる
 
 ディレクトリ構成変えて
@@ -237,3 +197,4 @@ index.html
 </html>
 ~~~
 
+![hello_world](images/vite_hello_world.png)
