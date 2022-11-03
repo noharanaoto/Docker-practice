@@ -3,6 +3,7 @@
 ~~~sh
 $ tree
 .
+├── .env
 ├── Dockerfile
 └── docker-compose.yml
 ~~~
@@ -26,7 +27,6 @@ EXPOSE 8000
 ~~~
 
 docker-compose.yml
-UIDとGIDは自分のものを入力。調べ方は[こちら](https://atmarkit.itmedia.co.jp/flinux/rensai/linuxtips/095uidgid.html)
 
 ~~~yml
 version: "3.8" 
@@ -36,8 +36,8 @@ services:
       context: . 
       dockerfile: ./Dockerfile
       args:
-        - UID=xxxx 
-        - GID=xxxx
+        UID: ${UID}
+        GID: ${GID}
     container_name: node
     volumes:
       - type: bind
@@ -45,12 +45,22 @@ services:
         target: /front
     working_dir: /front
     command: sh -c "npm run dev"
+    env_file:
+      - ./.env
     ports:
       - 8000:8000
     tty: true
     stdin_open: true
     environment:
       - CHOKIDAR_USEPOLLING=true
+~~~
+
+.env
+UIDとGIDは自分のものを入力。調べ方は[こちら](https://atmarkit.itmedia.co.jp/flinux/rensai/linuxtips/095uidgid.html)
+
+~~~
+UID=xxxx
+GID=xxxx
 ~~~
 
 ## やること
@@ -99,6 +109,7 @@ npm notice
 ~~~
 $ tree
 .
+├── .env
 ├── Dockerfile
 ├── docker-compose.yml
 └── vite-project
