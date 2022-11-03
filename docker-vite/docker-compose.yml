@@ -5,8 +5,8 @@ services:
       context: . 
       dockerfile: ./Dockerfile
       args:
-        - UID=501
-        - GID=20
+        UID: ${UID}
+        GID: ${GID}
     container_name: node
     volumes:
       - type: bind
@@ -14,6 +14,8 @@ services:
         target: /front
     working_dir: /front
     command: sh -c "npm run dev"
+    env_file:
+      - ./.env
     ports:
       - 8000:8000
     tty: true
