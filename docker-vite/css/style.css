@@ -1,0 +1,9 @@
+body{
+    margin: 0;
+}
+
+#snow_particlesjs{
+    background-color: #004adc;
+    width: 100vw;
+    height: 100vh;
+ }
